@@ -1,4 +1,7 @@
 \documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{vntex}
 \usepackage{maa-monthly}
 \usepackage{patrick_custom}
 \usepackage{subcaption, tikz-cd}
@@ -213,7 +216,7 @@ Bài báo này trình bày cách các nhóm con hữu hạn xuất hiện trong 
     \end{equation}
     một lần nữa vì các phép quay $2\pi$ là phần tử đơn vị; các vectơ đồng tuyến trong đại số Lie khác nhau về độ lớn bởi một bội số nguyên của $2\pi$ phải ánh xạ đến cùng một giá trị dưới ánh xạ mũ. 
     
-    Một lần nữa cho m���t số $\bfr\neq\id \in SO(3)$, chỉ một $z\in \Z$ cho một điểm trong quả cầu nửa đóng, $\overline{B}$, vì đường kính của nó là $2\pi$ và nó chứa nhiều nhất một trong bất kỳ cặp cực đối diện nào. Đây là định nghĩa của ánh xạ logarit:
+    Một lần nữa cho một số $\bfr\neq\id \in SO(3)$, chỉ một $z\in \Z$ cho một điểm trong quả cầu nửa đóng, $\overline{B}$, vì đường kính của nó là $2\pi$ và nó chứa nhiều nhất một trong bất kỳ cặp cực đối diện nào. Đây là định nghĩa của ánh xạ logarit:
     \begin{align}
         \log: SO(3)&\inj \so(3) \\
         \bfr&\mapsto \hat{r}\in\exp^*(\bfr)\cap \overline{B} = p\circ \eta^{-1}(\bfr)
@@ -421,7 +424,7 @@ Tôi chỉ trình bày một ví dụ này và để người đọc xem xét c�
 $A_4$ là một nhóm con của $S_4$ nên một lần nữa chúng ta chuyển sang thảo luận về nhóm sau.  Đây là các đối xứng quay của cả hai đối tượng đối ngẫu là lục diện (hình lập phương) và bát diện, cũng như một khối Archimedean, khối lập phương bát diện.
 
 \begin{figure}[h]
-    \begin{subfigure}{. 49\linewidth}
+    \begin{subfigure}{.49\linewidth}
     \centering
     \includegraphics[width = \linewidth]{s4}
     \caption{$S_4$ được minh họa trong $\overline{B}$}
@@ -456,7 +459,7 @@ Còn 4-chu trình thì sao? đây là các phép quay quanh các trục đi qua 
 
 3 2-2-chu trình là bình phương của 4-chu trình, và do đó có cùng trục quay. \emph{Chúng cũng là một bát diện}, nhưng bây giờ bán kính $\pi$ nên các cực đối diện của nó được đồng nhất như yêu cầu bởi $\sim$:  chúng nằm trên $\partial B$.
 
-Cuối cùng, 6 2-chu trình cố định các đường chéo qua các trung điểm đối diện của các cạnh hình lập phương.  Khối đa diện được tạo thành bởi các điểm này là một khối lập phương bát diện. Các đại diện phải n���m trong một mặt cầu bán kính $\pi$ nên chúng cũng nằm trên $\partial\overline{B}$.
+Cuối cùng, 6 2-chu trình cố định các đường chéo qua các trung điểm đối diện của các cạnh hình lập phương.  Khối đa diện được tạo thành bởi các điểm này là một khối lập phương bát diện. Các đại diện phải nằm trong một mặt cầu bán kính $\pi$ nên chúng cũng nằm trên $\partial\overline{B}$.
 
 \begin{figure}[h]
     \begin{subfigure}{.49\linewidth}
@@ -497,8 +500,8 @@ Tương đương, các đối xứng của một tứ diện là một hình l�
 
 Quá trình này hoạt động gần như chính xác cùng một cách đối với $A_5$ (hình \ref{fig:a5}) như các đối xứng của dodecahedron với một sự khác biệt quan trọng do 5-chu trình tách thành hai lớp liên hợp. 
 \begin{itemize}
-    \item 3-chu trình cố định các đỉnh của một dodecahedron và có bậc 3, vì vậy các đại diện của chúng là một dodecahedron bán kính $2\pi/3$. 
-    \item 5-chu trình cố định các đỉnh của icosahedron đối ngẫu và có bậc 5, vì vậy các đại diện của chúng là một \emph{cặp} icosahedra đối ngẫu, một b��n kính $2\pi/5$ và một $4\pi/5$.
+    \item 3-chu trình cố định các đỉnh của một dodecahedron và có bậc 3, vì vậy các đại diện của chúng là một dodecahedron bán kính $2\pi/3$.
+    \item 5-chu trình cố định các đỉnh của icosahedron đối ngẫu và có bậc 5, vì vậy các đại diện của chúng là một \emph{cặp} icosahedra đối ngẫu, một bán kính $2\pi/5$ và một $4\pi/5$.
     \item 2-2-chu trình cố định các đỉnh của icosidodecahedron đối ngẫu trung điểm cạnh\footnote{của cả dodecahedron và icosahedron} và có bậc 2, vì vậy các đại diện của chúng là các cặp đỉnh đối diện trên $\partial B$.
 \end{itemize}
 
@@ -508,3 +511,9 @@ Hình học của chính các nhóm hữu hạn có liên quan mật thiết đ�
 Các trực quan hóa này cung cấp một cách hiểu trực quan về cấu trúc của các nhóm này và mối quan hệ của chúng với hình học không gian ba chiều. Biểu diễn trục-góc và việc xây dựng không gian thương $\overline{B}$ cho phép chúng ta "thấy" toàn bộ nhóm cùng một lúc, với các phần tử được sắp xếp theo cách phản ánh cả cấu trúc đại số của chúng (qua bậc và lớp liên hợp) và ý nghĩa hình học của chúng (qua các trục quay và góc).
 
 Khái niệm về khối đa diện dẫn xuất mở rộng ý tưởng về tính đối ngẫu và cho thấy cách các nhóm con hữu hạn của $SO(3)$ liên quan đến toàn bộ họ các khối đa diện, không chỉ các khối đa diện đều. Điều này gợi ý rằng có một lý thuyết phong phú hơn về mối quan hệ giữa các nhóm và hình học chờ được khám phá, đặc biệt là trong các chiều cao hơn. 
+
+\bibliographystyle{amsplain}
+%    Insert the bibliography data here.
+\bibliography{references}
+
+\end{document}

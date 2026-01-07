@@ -2,7 +2,7 @@
 %% This is file `maa-monthly.sty', macros for the American Mathematical Monthly
 %%
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{maa-monthly} %[last revised 2013/08/08]
+\ProvidesClass{maa-monthly-pklocal} %[last revised 2026/01/07]
 
 \usepackage{times}
 \renewcommand{\ttdefault}{cmtt}
@@ -97,10 +97,10 @@
 
 \def\rightmark{\expandafter\@rightmark\botmark{}{}}
 
-\newcommand\journalname{American Mathematical Monthly}
-\newcounter{volume}	\def\thevolume{\arabic{volume}} \setcounter{volume}{121}
+\newcommand\journalname{Patrick Kerrigan independent publishing (MAA Template)}
+\newcounter{volume}	\def\thevolume{\arabic{volume}} \setcounter{volume}{1}
 \newcounter{issue}	\def\theissue{\arabic{issue}} \setcounter{issue}{1}
-\newcounter{annual}	\def\theannual{\arabic{annual}}\setcounter{annual}{2014}
+\newcounter{annual}	\def\theannual{\arabic{annual}}\setcounter{annual}{2026}
 %% NOTE: American Mathematical Monthly skips June and August
 \def\themonth{\ifcase\theissue\or
 	January\or February\or March\or April\or May\or June--July\or 	
