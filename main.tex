@@ -1,7 +1,9 @@
-\documentclass{article}
-\usepackage{maa-monthly}
+\documentclass{amsart}
+\usepackage{amssymb}
 \usepackage{patrick_custom}
 \usepackage{subcaption, tikz-cd}
+\usepackage{longtable}
+\usetikzlibrary{calc}
 
 %% IF YOU HAVE FONTS INSTALLED
 %\usepackage{mtpro2}
@@ -9,8 +11,9 @@
 
 \graphicspath{{figures/}}
 
-\theoremstyle{theorem}
+\theoremstyle{plain}
 \newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
  
 \theoremstyle{definition}
 \newtheorem*{definition}{Definition}
@@ -20,8 +23,11 @@
 \begin{document}
 
 \title{Visualizing Rotations of Space and its Finite Subgroups}
-\markright{Rotations and its Finite Subgroups}
-\author{}
+\author{Patrick Kerrigan}
+\address{Independent Researcher}
+\email{vice-president@pkeng.net}
+\urladdr{https://github.com/prkerrigan/SO-3-Finite-Subgroups}
+\thanks{Comments, corrections, and suggestions are welcome by email or by opening an issue at the GitHub repository above.}
 
 \maketitle
 
@@ -36,7 +42,7 @@ This paper shows how finite subgroups appear in a natural model of spacial rotat
     \begin{equation}
         \mathrm{FinRot}\coloneqq\curl{G\in \mathrm{Grp}\st G\leq SO(3,\R)\land |G|\in \N}
     \end{equation}
-    is well known, we find reference as early as Klein in 1888\cite{klein}. There are two infinite classes:
+    is well known, going back at least to Klein's work on the icosahedron \cite{klein}; see Coxeter \cite[p.~53]{coxeter1973} for a modern, self-contained treatment. There are two infinite classes:
     \begin{itemize}
         \item $C_k$ - cyclic groups of order $k$ which are the rotations of a $k$-gonal pyramid
         \item $D_{k}$ - dihedral groups of order $2k$ which are the rotations of a $k$-gonal prism
@@ -55,7 +61,7 @@ This paper shows how finite subgroups appear in a natural model of spacial rotat
            \forall x,y\in T,\exists! g\in G(y=g\cdot x)
        \end{equation}
     \end{definition}
-    Assign to every point $r\coloneqq(x,y,z)^T\in \R^3$ the rotation about the $r$-axis by $|r|$ radians. This is called the \emph{axis-angle} representation. Note that vectors in the same direction that differ in magnitude by $2\pi$ represent the same final state, while also every vectors whose magnitude is an integer multiple of $2\pi$, is a rotation which results in an unchanged final state. Consider the isomorphism of vector spaces defined by
+    Assign to every point $r\coloneqq(x,y,z)^T\in \R^3$ the rotation about the $r$-axis by $|r|$ radians. This is called the \emph{axis-angle} representation. Note that vectors in the same direction whose magnitudes differ by an integer multiple of $2\pi$ represent the same final rotation, and every vector whose magnitude is itself an integer multiple of $2\pi$ results in an unchanged final state. Consider the isomorphism of vector spaces defined by
     \begin{gather}
         r=\begin{bmatrix}
         x \\
@@ -109,6 +115,12 @@ This paper shows how finite subgroups appear in a natural model of spacial rotat
         \end{bmatrix}.
     \end{equation}
     is a rotation about $(1,0,0)^T$ by $\theta$ radians.
+
+    More generally, for any unit vector $\hat n\in S^2$ and $\theta\in\R$, writing $\hat n$ also for its hat-map matrix, the power series defining $\exp$ collapses (via $\hat n^3=-\hat n$) to the closed form
+    \begin{equation}\label{eq:rodrigues}
+        \exp(\theta\hat n) = I + \sin\theta\,\hat n + (1-\cos\theta)\,\hat n^2,
+    \end{equation}
+    \emph{Rodrigues' rotation formula} \cite{rodrigues1840}, which specializes to the matrix above when $\hat n=\hat x$. Given any $\hat r\in\so(3)$ with $\hat r\neq\hat 0$, applying eq. \ref{eq:rodrigues} to $\theta=|r|$ and $\hat n=\hat r/|r|$ computes $\exp(\hat r)$ explicitly for an arbitrary axis.
     
     This map is surjective in this instance because $SO(3)$ is compact and connected \cite[Cor. 11.10]{hall}, i.e. \emph{every} rotation is represented in the form $\exp(\hat{r})$ for some $\hat{r}\in \so(3)$.
     Note trivial (identity) rotations by $2\pi$ in any direction are equivalent to doing nothing at all:
@@ -179,7 +191,11 @@ This paper shows how finite subgroups appear in a natural model of spacial rotat
         p:\so(3)/\sim &\inj \so(3) \\
         [\hat{x}]&\overset{!}{\mapsto} \hat{x}'\in [\hat{x}]\cap\overline{B}
     \end{align}
-    so that $p$ selects a unique representative for each equivalence class in $\so(3)/\sim$. Note the image is equal to $\overline{B}$, shown in Fig. \ref{fig:log-so3}. \emph{Every figure in this paper is a perspective rendering of $\overline{B}$, usually with some subset of interest highlighted}; as $\overline{B}$ is in bijection with $\so(3)/\sim$, hence is a torsor for $SO(3)$ by the homeomorphism $\eta$. Put another way, this is because the \emph{preimage} or \emph{pullback} $\exp^*$ of a rotation $\bfr$:
+    so that $p$ selects a unique representative for each equivalence class in $\so(3)/\sim$. Note the image is equal to $\overline{B}$, shown in Fig. \ref{fig:log-so3}. \emph{Every figure in this paper is a perspective rendering of $\overline{B}$, usually with some subset of interest highlighted}; as $\overline{B}$ is in bijection with $\so(3)/\sim$, hence is a torsor for $SO(3)$ by the homeomorphism $\eta$.
+    \begin{remark}
+        This $\overline{B}$ is the familiar picture of $SO(3)$ as a solid ball of radius $\pi$ with antipodal boundary points identified, which realizes $SO(3)$ as the real projective space $\R P^3$; see Stillwell \cite{stillwell2008}. We keep the $\log/\exp$ notation above because it, unlike the standard picture, tracks the group structure of $\so(3)$ explicitly and generalizes without change to any compact connected Lie group.
+    \end{remark}
+    Put another way, this is because the \emph{preimage} or \emph{pullback} $\exp^*$ of a rotation $\bfr$:
     \begin{equation}\label{pimcd}
         \begin{tikzcd}
         \exp^*(\curl{\bfr})\arrow[r, hook] \arrow[d] & \so(3)\arrow[d, "\exp"] \\
@@ -211,14 +227,13 @@ This paper shows how finite subgroups appear in a natural model of spacial rotat
     \begin{equation}
         \exp^*(\bfr)=\hat{r}+2\pi \Z\frac{\hat{r}}{|r|}\subset \mathfrak{so}(3)
     \end{equation}
-    again because $2\pi$ rotations are the identity; co-linear vectors in the Lie algebra that differ in magnitude by an integer multiple of $2\pi$ must map to the same value under the exponential map, and if they do not differ by an integer multiple of $2\pi$, their images must be distinct because there is a non-identity group element $\exp (\hat{r}_1-\hat{r}_2)$ that transforms $\exp \hat{r}_2$ to $\exp\hat{r}_1$ by left multiplication on itself for co-linear vectors $r_1$ and $r_2$. The only relation between non-co-linear vectors are among the elements of $\ker \exp$, or requires consideration of the failure SO(3) to commute, preventing homeomorphism to addition.
+    again because $2\pi$ rotations are the identity; co-linear vectors in the Lie algebra that differ in magnitude by an integer multiple of $2\pi$ must map to the same value under the exponential map, and if they do not differ by an integer multiple of $2\pi$, their images must be distinct because there is a non-identity group element $\exp (\hat{r}_1-\hat{r}_2)$ that transforms $\exp \hat{r}_2$ to $\exp\hat{r}_1$ by left multiplication on itself for co-linear vectors $r_1$ and $r_2$. The only relation between non-co-linear vectors is membership in $\ker \exp$; any further relation would require $SO(3)$ to be commutative, which it is not.
     
-    Again given some $\bfr\neq\id \in SO(3)$, only one $z\in \Z$ gives a point in the half closed ball, $\overline{B}$, since its diameter is $2\pi$ and it contains at most one of any given pair of antipodal points. We can define $\log$:
+    Again, given some $\bfr\neq\id \in SO(3)$, exactly one element of $\exp^*(\bfr)$ lies in the half-closed ball $\overline{B}$, since $\overline{B}$ has diameter $2\pi$ and contains at most one of any given pair of antipodal points. This lets us define $\log$:
     \begin{align}
         \log: SO(3)&\inj \so(3) \\
         \bfr&\mapsto \hat{r}\in\exp^*(\bfr)\cap \overline{B} = p\circ \eta^{-1}(\bfr)
     \end{align}
-    %Therefor $B/\sim$ is a \emph{principal homogeneous space} for $SO(3)$. (didn't actually use the def of PHS, perhaps alter this) I name the unique element $\log(\bfr)\coloneqq\exp^{-1}(\bfr) \cap \overline{B}$. The gluing insures $\exp\circ\eta^{-1}$ is indeed a homeomorphism, essentially, $\exp$ re-glues what $\eta^{-1}$ \emph{cuts}. Cuts are the opposite of a gluing, in that $\eta$ being a gluing means $\eta^{-1}$ is a cut. This paper is concerned with visualization, and I can only draw subsets of $\R^3$. 
     Every diagram depicts $\log_*(G)\subset\overline{B}=\log_*(SO(3))\subset\so(3)$ where $G\in \mathrm{FinRot}$, i.e. every visualization is a \emph{cut} view of $SO(3)$, because $\log$ is left inverse to the gluing $\exp$:
     \begin{equation}
         \begin{tikzcd}
@@ -226,11 +241,12 @@ This paper shows how finite subgroups appear in a natural model of spacial rotat
            \so(3) \arrow[ur, two heads, "\exp"]\arrow[rr, "\id"]&& \so(3)
         \end{tikzcd}
     \end{equation}
-    We focus on $\overline{B}$ because it is an $SO(3)$-torsor under the action (check this!)
+    We focus on $\overline{B}$ because it is an $SO(3)$-torsor under the action
     \begin{align}
         SO(3)\times \so(3)&\to \so(3)\\
         (\G,\hat{x})&\mapsto \log(\G\exp{\hat{x}})\nonumber
     \end{align}
+    Indeed, left multiplication of $SO(3)$ on itself is free and transitive, making $SO(3)$ a torsor for itself; the action above is exactly this left-multiplication action transported to $\overline{B}$ along the bijection $\log$ (with inverse $\exp|_{\overline{B}}$), so it inherits freeness and transitivity.
     
     Earlier we called the image of $G$ under $\log$ that subgroups' ``flattening''. We chose this name as an metaphor based on how the exponential map works for pure imaginary numbers: a bijection exists between the unit circle and any length $2\pi$ contiguous line segment of pure imaginary numbers containing a single boundary point, for example $\curl{ix\in\C \st x\in(-\pi,\pi]\subset\R}$. Because this set contains "half" its boundary, we will call it half closed. Identifying the boundary points of this segment ($i\pi\sim -i\pi$) forms a ``flat circle'', the identification captures the topological properties lost by cutting the circle into a segment. We essentially did this same process in higher dimensions with every great circle through the identity in $SO(3,\R)$ flattened into $2\pi$ length segments along axes centered on 0 in $\overline{B}$. By identifying antipodal boundary points we make a ``flat $SO(3,\R)$'' called $B/\sim$, and the set $\overline{B}$ as the image of $p$ is our method of inspecting this flat $SO(3)$.
     
@@ -292,7 +308,7 @@ Take as given a polyhedron $P$ realized as a flat celled, finite \emph{2-CW comp
 As a CW complex, $P$ is a disjoint union $P^0\sqcup P^1\sqcup P^2$, called a \emph{cellulation}, of its:
 \begin{itemize}
     \item vertices named $P^0$ (0-cells). Formally a $J$ finitely indexed family of maps from the singleton $P^0\coloneqq\curl{e^0_j:e^0\to \R^3}_{j\in J}$ with all distinct images $(i\neq j\implies e^0_i\neq e^0_j)$. The orbit of a vertex must stay a constant distance from the origin because $G$ is a subgroup of $SO(3)$. This means that if the rotations are transitive on vertices, then the vertices $P^0$ are inscribed in a sphere.
-    \item edges named $P^1$ (1-cells). A family of continuous maps $P^1\coloneqq\curl{e^1_{ij}: e^1\to \R^3}_{(i,j)\in K}$ indexed by a subset $K\subseteq J\times J=J^2$ so that $(i,j)\in K$ implies $e^0_i$ and $e^0_j$ have no closer co-planar through the origin neighbors (
+    \item edges named $P^1$ (1-cells). A family of continuous maps $P^1\coloneqq\curl{e^1_{ij}: e^1\to \R^3}_{(i,j)\in K}$ indexed by a subset $K\subseteq J\times J=J^2$ so that $(i,j)\in K$ implies $e^0_i$ and $e^0_j$ are nearest neighbors, that is, their distance is minimal among all pairs of vertices:
     \begin{equation}
         |e^0_i-e^0_j|=\min \curl{|e^0_{i'}-e^0_{j'}|}_{(i',j')\in J^2}
     \end{equation}
@@ -306,6 +322,29 @@ As a CW complex, $P$ is a disjoint union $P^0\sqcup P^1\sqcup P^2$, called a \em
     \item  faces named $P^2$ (2-cells). A family of continuous maps $P^2\coloneqq\curl{e^2_{\Delta}: e^2\to \R^3}$ indexed by loops of edges $\Delta$, so that $\partial e^2_{\Delta}=\Delta$. 
 \end{itemize}
 
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[scale=1.6]
+        \foreach \i in {0,...,4} {\coordinate (v\i) at ({90+72*\i}:1);}
+        \fill[gray!20] (v0) -- (v1) -- (v2) -- (v3) -- (v4) -- cycle;
+        \node at (0,-0.05) {$e^2_\Delta$};
+        \draw[thick] (v0) -- (v1) -- (v2) -- (v3) -- (v4) -- cycle;
+        \foreach \i in {0,...,4} {\fill (v\i) circle (1.4pt);}
+        \node[above] at (v0) {$e^0_0$};
+        \node[above left] at (v1) {$e^0_1$};
+        \node[below left=-2pt] at (v2) {$e^0_2$};
+        \node[below right=-2pt] at (v3) {$e^0_3$};
+        \node[above right] at (v4) {$e^0_4$};
+        \node[above] at ($(v0)!0.5!(v1)$) {$e^1_{01}$};
+        \node[left] at ($(v1)!0.5!(v2)$) {$e^1_{12}$};
+        \node[below=1pt] at ($(v2)!0.5!(v3)$) {$e^1_{23}$};
+        \node[right] at ($(v3)!0.5!(v4)$) {$e^1_{34}$};
+        \node[right] at ($(v4)!0.5!(v0)$) {$e^1_{40}$};
+    \end{tikzpicture}
+    \caption{The cellulation $P^0\sqcup P^1\sqcup P^2$ of a flat pentagon, drawn here as a concrete 2-dimensional warm-up before the general definitions below: five $0$-cells $e^0_j$, five $1$-cells $e^1_{ij}$ suspended between nearest-neighbor vertices, and a single $2$-cell $e^2_\Delta$ (shaded) whose boundary $\Delta$ is the whole perimeter. This is the flat, cyclic/dihedral case mentioned above, with $\rot{P}=D_5$; the same $j\mapsto j+1$ pattern of vertices and edges recurs, unchanged in spirit, for every 3-dimensional polyhedron in the rest of the paper.}
+    \label{fig:cell-pentagon}
+\end{figure}
+
 A (possibly non-distinct) co-planar loop can be assigned to every 1-subcomplex of the form
 \begin{gather*}
     e^1_{ijk}\coloneqq\curl{e^0_i,e^1_{ij}, e^0_j, e^1_{jk}, e^0_k}\\
@@ -318,7 +357,7 @@ In this way the polyhedron has some nice algebraic properties:
     G\cdot P^d\coloneqq\curl{g\cdot x\in P\st (g,x)\in G\times P^d}=P^d\label{cinv}\\
     \sum_{d=0}^2(-1)^d|P^d|=2\label{eucha}
 \end{gather}
- Property \ref{pbd} is by definition for constructing a finite cell complex. Property \ref{cinv} states that the group must independently stabilize each cell type. Finally property \ref{eucha} is the Euler characteristic formula for 2-CW complexes homeomorphic to the sphere.
+ Property \ref{pbd} is by definition for constructing a finite cell complex. Property \ref{cinv} states that the group must independently stabilize each cell type. Finally property \ref{eucha} is the Euler characteristic formula for 2-CW complexes homeomorphic to the sphere \cite{MR1867354}.
 %  This immediately gives a collection of associated homomorphisms for every $i\in\curl{0,1,2}$:
 %  \begin{gather}
 %      \phi_{i}:G\to S_{|P^i|}
@@ -326,7 +365,42 @@ In this way the polyhedron has some nice algebraic properties:
 %  by tracking the group action on the $P^i$ separately.
 
  There are several polyhedra that are invariant under the same group action generated by replacing related $d$-cells with their centroid $0$-cells, then generating a new polyhedron from these vertices as above. The obvious case is when $P$ is regular and has the dual polyhedron generated by assigning every 2-cell of $P^2$ its centroid to get a derived set of 0-cells, which has associated faces and edges, which in this case happen to be in bijective correspondence with $P^0$ and $P^1$ respectively, the other components of the complete dual polyhedron $DP^2$.
- 
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.49\linewidth}
+        \centering
+        \begin{tikzpicture}[scale=1.3]
+            \foreach \i in {0,...,3} {\coordinate (v\i) at ({45+90*\i}:1);}
+            \draw[thick, blue] (v0) -- (v1) -- (v2) -- (v3) -- cycle;
+            \foreach \i in {0,...,3} {\fill[blue] (v\i) circle (1.4pt);}
+            \coordinate (m0) at ($(v0)!0.5!(v1)$);
+            \coordinate (m1) at ($(v1)!0.5!(v2)$);
+            \coordinate (m2) at ($(v2)!0.5!(v3)$);
+            \coordinate (m3) at ($(v3)!0.5!(v0)$);
+            \draw[thick, red] (m0) -- (m1) -- (m2) -- (m3) -- cycle;
+            \foreach \i in {0,...,3} {\fill[red] (m\i) circle (1.4pt);}
+        \end{tikzpicture}
+        \caption{$n=4$: $DP^1$ (red) is a square tilted $45^\circ$}
+    \end{subfigure}
+    \begin{subfigure}{.49\linewidth}
+        \centering
+        \begin{tikzpicture}[scale=1.3]
+            \foreach \i in {0,...,2} {\coordinate (v\i) at ({90+120*\i}:1);}
+            \draw[thick, blue] (v0) -- (v1) -- (v2) -- cycle;
+            \foreach \i in {0,...,2} {\fill[blue] (v\i) circle (1.4pt);}
+            \coordinate (m0) at ($(v0)!0.5!(v1)$);
+            \coordinate (m1) at ($(v1)!0.5!(v2)$);
+            \coordinate (m2) at ($(v2)!0.5!(v0)$);
+            \draw[thick, red] (m0) -- (m1) -- (m2) -- cycle;
+            \foreach \i in {0,...,2} {\fill[red] (m\i) circle (1.4pt);}
+        \end{tikzpicture}
+        \caption{$n=3$: $DP^1$ (red) is a triangle tilted $60^\circ$}
+    \end{subfigure}
+    \caption{The derived polyhedron $DP^1$ (red) of a regular $n$-gon $P$ (blue), obtained by placing a new vertex at the centroid of each $1$-cell. Elementary geometry gives $DP^1$ as an $n$-gon rotated by $\pi/n$ and scaled by $\cos(\pi/n)$ relative to $P$, for any $n$. For $n=3$ this $60^\circ$ tilt happens to coincide with a $180^\circ$ point-reflection, since $180^\circ\equiv 60^\circ\pmod{120^\circ}$ for a triangle's $3$-fold symmetry, producing the familiar hexagram (``Star of David''); no such coincidence occurs for $n=4$ or larger $n$. We will meet the same picture one dimension up in Section~\ref{sec:altsym}, where a cube's eight vertices split into two oppositely-oriented inscribed tetrahedra (the \emph{stella octangula}).}
+    \label{fig:dp1-2d}
+\end{figure}
+
  \begin{definition}[Similar cells]
     We say a pair of cells $A, B\subseteq P^n$ are \emph{similar} if there exists a $\G\in G$ such that $A=\G\cdot B\coloneqq\curl{\G\cdot b\st b\in B}$ as sets.
  \end{definition}
@@ -339,12 +413,14 @@ In this way the polyhedron has some nice algebraic properties:
     
  \end{theorem}
  For polyhedrons:
- The shell of a 0-cell is always an alternating ``petals'' of 2-cells and their 1-cell boundaries. The shell of a 1-cell is always a pair each of 0-cells (the boundary of the 1-cell) and 2-cells (whose boundary contains the 1-cell). The shell of a 2-cell is just its boundary composed of alternating 0 and 1-cells.
+ The shell of a 0-cell is always an alternating ``petals'' of 2-cells and their mutual 1-cell boundaries. The shell of a 1-cell is always a pair each of 0-cells (the boundary of the 1-cell) and 2-cells (whose boundary contains the 1-cell). The shell of a 2-cell is just its boundary composed of alternating 0 and 1-cells.
 
- Most regular polyhedra symmetries are transitive on vertices so all 0-cells are similar. However most dihedral diamonds have a pair of antipodal points non-similar to the bulk other perimeter points -- the rare exception only the (regular) 4-dihedral diamond corresponding to a regular octohedron as $<(123)>\rtimes <(13), (1234)> = S_4$. The normal subgroup of 3 cycle symmetry of the regular octohedron $\implies$ equilateral triangular faces.
+ Most regular polyhedra symmetries are transitive on vertices so all 0-cells are similar. However most dihedral diamonds have a pair of antipodal points non-similar to the bulk other perimeter points -- the rare exception only the (regular) 4-dihedral diamond corresponding to a regular octahedron as $<(123)>\rtimes <(13), (1234)> = S_4$. The normal subgroup of 3 cycle symmetry of the regular octahedron $\implies$ equilateral triangular faces.
  
  In general not all 2-cells $P^2$ of $P$ are similar, i.e. they do not have the same topological shape in the sense of how many 0-cells and 1-cells compose its boundary. If a pair of 2-cells $A,B\in P^2$ do not have the same number and type of subcells on their boundary then no symmetry $g\in G$ could map $A=g\cdot B$ because such a map must map cells of the same dimension to each other to maintain compatibility of the group action with the cell topology, and thus cannot form the required bijection between subcells on the boundaries when the number of subcells differs.
- However $P$ is regular if and only if every 2-cell is similar (check this).
+ \begin{remark}
+     Similarity of every $2$-cell is necessary for $P$ to be a regular polyhedron in the classical sense (flag-transitive symmetry, e.g.\ a Platonic solid), but it is not by itself sufficient: face-transitivity alone does not force vertex- or edge-transitivity (an $n$-gonal bipyramid, for instance, can have $D_n$ act transitively on its $2n$ triangular faces without acting transitively on its two kinds of vertices). The correct classical statement is that $P$ is regular exactly when $G$ acts transitively on flags (incident vertex--edge--face triples), which for a polyhedron is equivalent to $G$ acting transitively on $0$-, $1$-, and $2$-cells simultaneously \cite{coxeter1973}.
+ \end{remark}
  \begin{definition}[Derived polyhedron]
     A \emph{derived polyhedron} is generated by placing a vertex at the centroid of each similar singular subcomplex of $P$, then generating a new polyhedron inductively from these vertices as
  \end{definition}
@@ -363,49 +439,102 @@ We can partition the collection of subcomplexes
      (\G, C)&\mapsto \G\cdot C\nonumber\\
      \text{where, } G\cdot C\coloneqq \curl{\G\cdot x\in P\st(\G, x)\in G\times C}\nonumber
  \end{align}
- Is the action induced by all of the inclusions of subcomplexes $C$ into $P$. We interpret these orbits as similarity classes of shapes, where by shape we mean a particular arrangement of cells in a subcomplex invariant under the action of its stabilizer. The stabilizer subgroup acting on the subcomplex determines how the cells of its boundary can be arranged because the ambient group action independently stabilizes cells by dimension and the dimension of the boundary must be distinct (one less) from the whole set. Similar subcomplexes thus have the same shape because their stabilizers are conjugate and hence isomorphic.
+ Is the action induced by all of the inclusions of subcomplexes $C$ into $P$. We interpret these orbits as similarity classes of shapes, where by shape we mean a particular arrangement of cells in a subcomplex invariant under the action of its stabilizer. Given some subcomplex $C\subseteq P$, write $G_C\coloneqq\curl{g\in G\st g\cdot C = C}$ for its stabilizer. Similar subcomplexes have conjugate stabilizers, and vice versa:
+ \begin{align*}
+     A=g\cdot B\iff G_A &= G_{g\cdot B}\\
+     &=\curl{h\in G:g\cdot B = hg\cdot B}\\
+     &=\curl{h\in G: B = g^{-1}hg\cdot B}\\
+     &=\curl{h\in G:g^{-1}hg\in G_B}\\
+     &=gG_Bg^{-1}
+ \end{align*}
+ The stabilizer subgroup acting on the subcomplex determines how the cells of its boundary can be arranged because the ambient group action independently stabilizes cells by dimension and the dimension of the boundary must be distinct (one less) from the whole set. Similar subcomplexes thus have the same shape because their stabilizers are conjugate and hence isomorphic.
  
  Of particular interest to us are the similarity or \emph{shape} classes $\Orb^d_s\coloneqq G\cdot C^d_s\in \subc{P^d}/G$ of the various singular $d$-cell complexes $C^d_s\coloneqq e^d_s\sqcup \partial e^d_s$ about some single $d$-cell $e^d_s\in P^d$ with shape $s\in S$; as there may be multiple shapes for fixed cell dimension.
- However $d=2$ is the first case where one singular $d$-cell may not be similar to another. In particular:
+ Cells of different dimension can fail to be similar for two different reasons. At $d=2$, cells can already be combinatorially distinguishable, since the boundary loop length $n$ (triangle, square, pentagon, \dots) is itself an invariant of the group action, so $2$-cells with different $n$ can never be similar regardless of $G$. At $d=0$ and $d=1$, by contrast, every singular cell has an \emph{identical} boundary type (empty, or an unordered pair of vertices, respectively) -- yet this alone does not force $G$ to act transitively on them, as already noted above for dihedral diamonds: the two apex $0$-cells there have valence $k$ (they meet $k$ edges apiece) while each of the $k$ perimeter $0$-cells has valence $4$, so no $g\in\rot{P}$ can send a perimeter vertex to an apex whenever $k\neq 4$; and even at $k=4$, where the valences happen to agree, a generic (non-equilateral) $4$-dihedral diamond still has rotation group $D_4$, which keeps the two kinds of vertex in separate orbits -- only the metrically regular case, the octahedron, enlarges the group to $S_4$ and merges them. The same splitting propagates to $d=1$: the $k$ ``equatorial'' edges joining consecutive perimeter vertices and the $2k$ ``lateral'' edges joining a perimeter vertex to an apex share the identical boundary type $\curl{e^0_i,e^0_j}$, yet are similar to one another only in that same regular ($k=4$) case. In particular:
  \begin{itemize}
-     \item $d=0$, then the boundary $\partial e^0_j$ is empty, and every pair of singular $0$-cell with similar shells are similar.
-     \item $d=1$, then the boundary $\partial e^1_{ij}$ is the pair $\curl{e^0_i, e^0_j}$ and so every singular $1$-cell in a polyhedron is similar to a subcomplex homeomorphic to the closed interval, so that its stabilizer is isomorphic to a subgroup of the group of order $2$ acting by $t\mapsto -t$ in $e^1_{ij}$ and $e^0_i\mapsto e^0_j$ on its boundary.
+     \item $d=0$, then the boundary $\partial e^0_j$ is empty, and every pair of singular $0$-cells with similar shells are similar -- but, as above, not every pair of $0$-cells has similar shells.
+     \item $d=1$, then the boundary $\partial e^1_{ij}$ is the pair $\curl{e^0_i, e^0_j}$, so the stabilizer of any singular $1$-cell is isomorphic to a subgroup of the order-$2$ group acting by $t\mapsto -t$ on $e^1_{ij}$ and $e^0_i\mapsto e^0_j$ on its boundary; but as with $d=0$, sharing this boundary type does not by itself make two $1$-cells similar.
      \item $d=2\implies \partial e^2_n=\Delta_n$ where $\Delta_n=e^1_{jk\dots ij}$ and $jk\dots ij$ has length $n$ and specifies a loop 1-subcomplex with $n$ edges suspended sequentially between $n$ linearly independent vertices based at $e^0_j$.
  \end{itemize}
  
-%  Given some $d$-cell $S\in P^d$, assign $S$ its \emph{stabilizer} $G_S$, the subgroup of $G$ fixing $S$, and note that similar subcomplexes have conjugate stabilizers and vice versa.
-%  \begin{align*}
-%      A=g\cdot B\iff G_A &= G_{g\cdot B}\\
-%      &=\curl{h\in G:g\cdot B = hg\cdot B}\\
-%      &=\curl{h\in G: B = g^{-1}hg\cdot B}\\
-%      &=\curl{h\in G:g^{-1}hg\in G_B}\\
-%      &=gG_Bg^{-1}
-%  \end{align*}
- 
-We analyze the partition into $\bigsqcup_{s\in S}\Orb^d_s$ by considering the action of the \emph{stabilizer} $G^d_s$ of some $C^d_s$ on its boundary subcomplex, where the first non-trivial case being $d=2$: 
+ We analyze the partition into $\bigsqcup_{s\in S}\Orb^d_s$ by considering the action of the \emph{stabilizer} $G^d_s$ of some $C^d_s$ on its boundary subcomplex, where the first non-trivial case being $d=2$: 
 \begin{align}
     \partial C^2_s=\bigsqcup_{e^0_j\in \partial C^d_s}e^0_j\sqcup\bigsqcup_{e^1_{ij}\subseteq\partial C^d_s}e^1_{ij}
 \end{align}
-The \emph{orbit-stabilizer theorem} tells us that:
+The \emph{orbit-stabilizer theorem} \cite{dummitfoote} tells us that:
 \begin{equation}
     |\Orb^d_i|=\left[G:G^d_i\right]
 \end{equation}
 so that in particular the number of similar subcells within $P$ must divide the order of $G$.
  
 A derived polyhedron $D_i P^d$ exists for each orbit $\Orb^d_i$ in $\subc{P^d}/G$ whose $|\Orb^d_i|$ vertices are given by the centroids of $i$-cells in $\Orb^d_i$.
+
+\begin{theorem}[Derivation is equivariant]\label{thm:derivation-equivariant}
+    Every $D_iP^d$ is invariant under $G=\rot{P}$: since each $g\in G\leq SO(3)$ acts on $\R^3$ by a linear map, it commutes with taking centroids of finite point sets,
+    \begin{equation}
+        g\cdot\mathrm{centroid}(C) = g\cdot\frac1{|C|}\sum_{x\in C}x = \frac1{|C|}\sum_{x\in C}g\cdot x = \mathrm{centroid}(g\cdot C),
+    \end{equation}
+    and $\Orb^d_i=G\cdot C^d_i$ is by definition a single $G$-orbit, so $g$ sends the centroid of any $C\in\Orb^d_i$ to the centroid of $g\cdot C\in\Orb^d_i$. Thus $g$ permutes the vertex set of $D_iP^d$ by this same rotation, giving $G\leq\rot{D_iP^d}$.
+\end{theorem}
+\begin{remark}
+    This containment can be strict, so ``the same symmetry group'' should really be read as ``at least the same symmetry group'': a derived polyhedron may accidentally acquire more symmetry than the group used to build it. For instance the tetrahedron with vertices $(1,1,1),(1,-1,-1),(-1,1,-1),(-1,-1,1)$ (Section~\ref{sec:altsym}) is edge-transitive, so it has a single $DP^1$; its six edge-midpoints are exactly $(\pm1,0,0),(0,\pm1,0),(0,0,\pm1)$, the vertices of a regular octahedron with rotation group $S_4$ of order $24$ -- strictly larger than $\rot(\text{tetrahedron})=A_4$ of order $12$. Every correspondence we draw below between shape-derivations and conjugacy classes therefore rests on the guaranteed containment $G\leq\rot{D_iP^d}$ of Theorem~\ref{thm:derivation-equivariant}, not on an assumption of exact equality.
+\end{remark}
+
+The case $d=0$ is degenerate: the centroid of a single vertex is itself, so $D_iP^0=P^0$ is literally the same point set as $P$, not a new shape, and trivially $\rot{D_iP^0}=G$. The interesting question is which of the genuinely new derivations, $d=1$ (edges) or $d=2$ (faces), can be trusted never to gain extra symmetry; the answer turns out to depend not on $d$ itself but on whether the derivation can be run in reverse.
+\begin{theorem}[Involutive derivations are exact]\label{thm:involutive-exact}
+    Suppose $P$ is regular in the classical sense (flag-transitive, Remark above) and the derivation $P\mapsto D_iP^d$ is \emph{involutive}: applying the same centroid-derivation to the cells of $D_iP^d$ recovers $P$ exactly as a point set. Then $\rot{D_iP^d}=G$ exactly.
+\end{theorem}
+\begin{proof}
+    Let $H\coloneqq\rot{D_iP^d}\supseteq G$ (Theorem~\ref{thm:derivation-equivariant}). Applying Theorem~\ref{thm:derivation-equivariant} again, now with $D_iP^d$ playing the role of $P$ and $H=\rot{D_iP^d}$ playing the role of $G$, shows $H$ preserves the centroid-derivation of $D_iP^d$'s own cells. By hypothesis this recovers $P$ exactly, so $H\leq\rot P=G$. Hence $H=G$.
+\end{proof}
+\begin{remark}
+    The classical dual $DP^2$ of a regular polyhedron is exactly such an involutive derivation: taking face-centroids of $DP^2$ recovers $P$'s original vertices one-for-one (cube $\leftrightarrow$ octahedron, dodecahedron $\leftrightarrow$ icosahedron, tetrahedron $\leftrightarrow$ itself). So Theorem~\ref{thm:involutive-exact} \emph{proves} that duals never gain extra symmetry, rather than merely observing it case by case.
+
+    Edge-derivation $DP^1$ enjoys no such guarantee, because it is generally not invertible: distinct polyhedra can share the same edge-midpoints. This is exactly what happens for the tetrahedron: its companion tetrahedron inscribed in the same cube (the other half of the stella octangula, obtained by a $90^\circ$ rotation about a vertex axis, an element of $S_4\setminus A_4$) has the \emph{identical} six edge-midpoints, so $DP^1$ alone cannot tell which of the two tetrahedra produced it -- there is no well-defined inverse, Theorem~\ref{thm:involutive-exact} does not apply, and indeed $\rot{DP^1}=S_4$ is strictly larger. This is not automatic for every edge-derivation, however: the cube's own edge-derived polyhedron, the cuboctahedron, has rotation group exactly $S_4=\rot(\text{cube})$ with no further enlargement, since (unlike the tetrahedron) no other cube-inscribed solid shares the cube's twelve edge-midpoints. So the dichotomy is not simply ``$d=1$ versus $d=2$'' but exactly ``non-invertible versus invertible'': invertibility guarantees exactness by Theorem~\ref{thm:involutive-exact}, while a non-invertible derivation like $DP^1$ must be checked directly on a case-by-case basis, as we do throughout Sections~\ref{sec:altsym}ff.
+\end{remark}
  
-The dual of a regular polyhedron above is one type of derived polyhedron. Because every 1-cell of $P$ is similar, since each is an open interval bounded by a pair of distinct vertices hence stabilized by a subgroup isomorphic to $S_2\simeq C_2$; there is another kind of derived polyhedron given by assigning to every 1-cell of $P$ its centroid 0-cell, written $DP^1$.
+The dual of a regular polyhedron above is one type of derived polyhedron. When the $1$-cells of $P$ do happen to form a single orbit -- as they do for the five Platonic solids, though not in general, e.g.\ for a dihedral diamond with $k\neq 4$, whose equatorial and lateral edges are never similar -- each is an open interval bounded by a pair of distinct vertices, stabilized by a subgroup isomorphic to $S_2\simeq C_2$, and there is another kind of derived polyhedron given by assigning to every $1$-cell of $P$ its centroid $0$-cell, written $DP^1$. In general, $D_iP^1$ is defined per orbit of $1$-cells as above, and a polyhedron with several edge orbits has correspondingly many distinct edge-derived polyhedra rather than a single $DP^1$.
  
 An interesting question for further research is: how does this process generalizes to higher dimensions?
+
+We now make good on the correspondence promised at the end of Section~1, between the shapes of Section~2 and the conjugacy classes governing $\log_*(G)\subset\overline{B}$.
+\begin{definition}[Pole]
+    A \emph{pole} of $G$ is a point $v\in S^2\subset\R^3$ with
+    \begin{equation*}
+        \mathrm{Stab}_G(v)\coloneqq\curl{h\in G\st h\cdot v=v}\neq\curl1.
+    \end{equation*}
+\end{definition}
+\begin{theorem}[Point stabilizers are cyclic]\label{thm:cyclic-stab}
+    For any $v\in\R^3\setminus\curl0$, the stabilizer $\mathrm{Stab}_G(v)$ is a cyclic group of rotations about the axis through $v$.
+\end{theorem}
+\begin{proof}
+    Every $h\in\mathrm{Stab}_G(v)$ fixes $v$, hence restricts to a linear isometry of the orthogonal complement $v^\perp\cong\R^2$; since $\det h=1$, this restriction lies in $SO(2)$, and the restriction map $\mathrm{Stab}_G(v)\to SO(2)$ is injective, because a rotation of $\R^3$ fixing $v$ and acting as the identity on $v^\perp$ is the identity on all of $\R^3$. So $\mathrm{Stab}_G(v)$ embeds as a finite subgroup of the circle group $SO(2)$, which forces it to be cyclic.
+\end{proof}
+\begin{theorem}[Poles realize conjugacy classes]\label{thm:poles-conj}
+    Let $v$ be a pole of $G$ with cyclic stabilizer $\mathrm{Stab}_G(v)=\langle c\rangle$ of order $m>2$ (Theorem~\ref{thm:cyclic-stab}). Then $C_G(c)=\mathrm{Stab}_G(v)$, so the conjugacy class of $c$ in $G$ satisfies
+    \begin{equation}
+        \left|\text{conjugacy class of }c\right| = \left[G:C_G(c)\right] = \left[G:\mathrm{Stab}_G(v)\right] = \left|G\cdot v\right|,
+    \end{equation}
+    that is, the conjugacy class of $c$ is in size- and stabilizer-matching bijection with the $G$-orbit of the pole $v$, via $g\cdot v\leftrightarrow gcg^{-1}$.
+\end{theorem}
+\begin{proof}
+    $\mathrm{Stab}_G(v)\subseteq C_G(c)$ since $\mathrm{Stab}_G(v)=\langle c\rangle$ is abelian. Conversely, suppose $h\in C_G(c)$, i.e.\ $hch^{-1}=c$. Conjugation preserves rotation angle and moves the axis by $h$, so $hch^{-1}$ is the rotation of the same angle as $c$ about axis $h\cdot v$; since $c$ has order $m>2$, its angle is not $\pi$, so $c$ has a uniquely determined oriented axis, forcing $h\cdot v=v$, i.e.\ $h\in\mathrm{Stab}_G(v)$. The displayed equation is then orbit-stabilizer applied twice, once to conjugation and once to the action on $S^2$, and the map $g\cdot v\mapsto gcg^{-1}$ is well defined and injective exactly because $\mathrm{Stab}_G(v)=C_G(c)$.
+\end{proof}
+\begin{remark}
+    Order-$2$ elements ($m=2$, angle $\pi$) are the one case excluded above, precisely because a $\pi$-rotation about $v$ and about $-v$ is the same element of $SO(3)$; some $h\in G$ may send $v\mapsto -v$ while still centralizing $c$, so $C_G(c)$ can be strictly larger than $\mathrm{Stab}_G(v)$ there. This is exactly the antipodal identification $\hem$ already built into $\overline B$, and it is exactly why, in the examples below, an order-$2$ conjugacy class can have half as many elements as its naive (unidentified) pole-orbit -- e.g.\ the $2$-cycles of $S_4$ correspond to the $12$ vertices of a cuboctahedron with antipodes identified into $6$ pairs. The bookkeeping is carried out case-by-case via Theorem~\ref{thm:sphereclass}.
+\end{remark}
+\begin{corollary}[Shape-orbits realize conjugacy classes]\label{cor:shape-conj}
+    Let $P$ be a $G$-invariant polyhedron with $\rot P=G$ exactly (guaranteed for $P$ itself; checkable case-by-case for its derived polyhedra via Theorem~\ref{thm:derivation-equivariant} and the remark following it). If a $d$-cell orbit $\Orb^d_i$ of $P$, or of any derived $D_jP^d$, has non-trivial cyclic stabilizer $G^d_i=\langle c\rangle$ of order $>2$, then the rescaled centroid of any cell in $\Orb^d_i$ is a pole of $G$ with stabilizer $G^d_i$, and by Theorem~\ref{thm:poles-conj} the shape-orbit $\Orb^d_i$ is in canonical, size-matching bijection with the conjugacy class of $c$ in $G$.
+\end{corollary}
+This is exactly the mechanism behind every identification made in Sections~\ref{sec:altsym} below: for the cube, the $3$-cycle conjugacy class of $S_4$ (size $8$) is the pole-orbit of the cube's own $8$ vertices; the $4$-cycles (size $6$) are the pole-orbit of the dual octahedron's $6$ vertices; and the $2,2$-cycles (size $3$) are the same $6$ axes at twice the angle, with the identification of Theorem~\ref{thm:sphereclass} collapsing them to $3$ classes. Whether a \emph{fixed} choice of seed polyhedron $P$, together with its derived polyhedra, exhausts \emph{every} conjugacy class of $G$ is not guaranteed by Corollary~\ref{cor:shape-conj} alone -- that is verified case-by-case below by matching orbit sizes against the class equation of $G$ (e.g.\ $1+6+8+6+3=4!$ for $S_4$).
  
 \section{Cyclic and Dihedral groups}
 
 \begin{figure}
     \centering
     \includegraphics{d5-in-so3}
-    \caption{$D_5\leq SO(3,\R)$ illustrated in $\overline{B}$}
+    \caption{$D_5\leq SO(3,\R)$ illustrated in $\overline{B}$. Unfilled stars are the same point as opposite filled stars on the blue pentagonal circle under the $2\pi$ difference identity.}
     \label{fig:D5inSO3}
-    \caption{Unfilled stars are the same point as opposite filled stars on the blue pentagonal circle under the $2\pi$ difference identity}
 \end{figure}
 
 $C_k$ is a subgroup of $D_k$, so we will restrict our visualization to the latter; the former is just a subset of the diagram. Consider $D_5$, the symmetries of the regular pentagon. Without loss of generality we assume the pentagon in question is centered at the origin with a vertex on the positive $y$-axis, for example the green pentagon shown in figure \ref{fig:D5inSO3}. The class equation is $|D_5|=1+2+2+5$.
@@ -417,8 +546,8 @@ In fact there is another pentagon in this picture, although it is obscured by ou
 The blue and red line are a pair of interlinked \emph{great circles}, and the stars are equally spaced on these circles, \emph{making $D_5$ a pair of interlinked regular pentagons embedded in $SO(3)$}.
 
 I only show this one example and leave the reader to consider how other dihedral groups (and cyclic subgroups) would appear in this diagram scheme. What changes when the dihedral group is over an even rather then odd number, like $D_6$?
-\section{Alternating and Symmetric groups}
-$A_4$ is a subgroup of $S_4$ so again we move to discuss the latter. It is the rotational symmetries of the dual objects hexahedron (cube) and octohedron both, as well as one Archimedian solid, the cuboctahedron. The class equation is $1+6+8+6+3 = 4!$, and since it is a full symmetric group cycle type determines conjugacy class. The cycle type also determines the order of an element, so Thm. \ref{thm:sphereclass} again restricts placement.
+\section{Alternating and Symmetric groups}\label{sec:altsym}
+$A_4$ is a subgroup of $S_4$ so again we move to discuss the latter. It is the rotational symmetries of the dual objects hexahedron (cube) and octahedron, as well as one Archimedean solid, the cuboctahedron. The class equation is $1+6+8+6+3 = 4!$, and since it is a full symmetric group cycle type determines conjugacy class. The cycle type also determines the order of an element, so Thm. \ref{thm:sphereclass} again restricts placement.
 
 \begin{figure}[h]
     \begin{subfigure}{.49\linewidth}
@@ -452,9 +581,9 @@ $A_4$ is a subgroup of $S_4$ so again we move to discuss the latter. It is the r
 
 Consider the 3-cycles in $S_4$ as it acts on the cube. Each of these 8 elements must fix one of the diagonals of the cube, they are a rotation about that axis. 3-cycles have order 3, so the representatives must lie in the sphere of radius $2\pi/3$; $n=3\implies k=1$. The 4 rotation axes intersect this sphere in a cube which has 8 vertices, that is \emph{the representatives of the conjugacy class of 3-cycles is itself a cube of radius $2\pi/3$ in $\mathfrak{so}(3)$}! This is drawn as the blue cube in fig. \ref{fig:s4}. Again we see the geometry of objects with symmetry $S_4$ appear in our representation.
 
-What about 4-cycles? these are rotations about axes which pass through the centers of opposite faces of the cube, or equivalently, fix axes through the antipodal vertices in the dual octohedron. They are order 4, so their 6 representatives lie on a sphere of radius $\pi/2$. \emph{The 4-cycle representatives are an octahedron of radius $\pi/2$}. Furthermore, the orientation is fixed relative to the 3-cycle cube; this octahedron is a re-scaling of the 3-cycles dual octohedron. In fig. \ref{fig:s4} this is drawn as the red octohedron.
+What about 4-cycles? these are rotations about axes which pass through the centers of opposite faces of the cube, or equivalently, fix axes through the antipodal vertices in the dual octahedron. They are order 4, so their 6 representatives lie on a sphere of radius $\pi/2$. \emph{The 4-cycle representatives are an octahedron of radius $\pi/2$}. Furthermore, the orientation is fixed relative to the 3-cycle cube; this octahedron is a re-scaling of the 3-cycles' dual octahedron. In fig. \ref{fig:s4} this is drawn as the red octahedron.
 
-The 3 2-2-cycles are the squares of 4-cycles, and thus have the same rotation axes. \emph{They are also an octohedron}, but now of radius $\pi$ so its antipodes are identified as required by $\sim$, giving the required 3 pairs. This is the yellow octohedron in fig. \ref{fig:s4}.
+The 3 2-2-cycles are the squares of 4-cycles, and thus have the same rotation axes. \emph{They are also an octahedron}, but now of radius $\pi$ so its antipodes are identified as required by $\sim$, giving the required 3 pairs. This is the yellow octahedron in fig. \ref{fig:s4}.
 
 Finally, the 6 2-cycles fix the diagonals through antipodal midpoints of the cubes edges. The polyhedron formed by these points is a cuboctahedron. The representatives must lie in a sphere of radius $\pi$ just like 2-2-cycles since their order is also 2, so \emph{the 2-cycles are the cubes edge-dual cuboctahedron of radius $\pi$ with its antipodes identified.} The cuboctahedron (green, fig. \ref{fig:s4}) has 12 vertices so there are the required 6 pairs.
 
@@ -488,22 +617,175 @@ Finally, the 6 2-cycles fix the diagonals through antipodal midpoints of the cub
     \label{fig:a5}
 \end{figure}
 
-Note that $A_4 = S_4^2=<(123), (12)(34)>\subset S_4$ is just the 3-cycles and the 2-2-cycles as:
+Note that $A_4 = S_4^2\coloneqq\curl{g^2\st g\in S_4} = \langle(123), (12)(34)\rangle\subset S_4$ is exactly the identity together with the 3-cycles and the 2,2-cycles, since:
 \begin{itemize}
-    \item 2-cycles and 2-2-cycles square to the identity
-    \item 3-cycles are sent to 3-cycles, and 4-cycles to 2-2-cycles by squaring
+    \item 2-cycles and 2,2-cycles square to the identity
+    \item 3-cycles are sent to 3-cycles, and 4-cycles to 2,2-cycles by squaring
 \end{itemize}
-Equivalently, the symmetries of a tetrahedron are a the cube and a half-octohedron, or a type or equilateral "triangle"; a geometric object with 3 vertices joined by equal length edges embedded in $SO(3)$, but there are 6 edges instead of 3: as each pair of vertices can be joined by an equal length pair of edges forming a great circle through the vertices and perpendicular to the great circles formed the same way through the other vertex.
+Geometrically, $A_4$'s 3-cycles still lie on the sphere of radius $2\pi/3$ (since $n=3$ forces $k=1$), but now split into two conjugacy classes of four elements each, matching the classical fact that a cube's eight vertices decompose into two inscribed regular tetrahedra (the \emph{stella octangula}). The three 2,2-cycles are unaffected by passing from $S_4$ to $A_4$ and remain the same three antipodal pairs on $\partial\overline{B}$ described above.
 
-This process works almost the exact same way for $A_5$ (fig. \ref{fig:a5}) as the symmetries of the dodecahedron with one important distinction due to 5-cycles splitting into two conjugacy classes. The class equation for $A_5$ is $1+12+20+12+15 = 5!/2$, and the two 12's come from the split 5-cycles which are permuted to each other via the one outer automorphism of $A_5$ by a 2-cycle in $S_5$. Said another way, this is because there are two possible values of $k$ for $n=5$ in Thm. \ref{thm:sphereclass}: $k=1,2$, corresponding to rotations by $2\pi/5$ and $4\pi/5$. The correspondence is as follows:
+This process works almost the exact same way for $A_5$ (fig. \ref{fig:a5}) as the symmetries of the dodecahedron with one important distinction due to 5-cycles splitting into two conjugacy classes. The class equation for $A_5$ is $1+12+20+12+15 = 5!/2$, and the two 12's come from the split 5-cycles which are permuted to each other via the one outer automorphism of $A_5$, induced by conjugation by a transposition in $S_5$ \cite{dummitfoote}. Said another way, this is because there are two possible values of $k$ for $n=5$ in Thm. \ref{thm:sphereclass}: $k=1,2$, corresponding to rotations by $2\pi/5$ and $4\pi/5$. The correspondence is as follows:
 \begin{itemize}
     \item 3-cycles fix vertices of a dodecahedron and are order 3, so their representatives are a dodecahedron of radius $2\pi/3$.
     \item 5-cycles fix vertices of the dual icosahedron and are order 5, so their representatives are a \emph{pair} of dual icosahedra, one of radius $2\pi/5$ and one $4\pi/5$.
-    \item 2-2-cycles fix vertices of the edge-midpoint dual\footnote{of both the dodecahedron and icosahedron} icosidodecahedron and are order 2, so their representatives are antipodal pairs of vertices of an icosidodecahedron of radius $\pi$.
+    \item 2-2-cycles fix vertices of the edge-midpoint dual\footnote{of both the dodecahedron and icosahedron; the icosidodecahedron is the \emph{rectification} of either, obtained by placing a vertex at the midpoint of each edge \cite{coxeter1973}.} icosidodecahedron and are order 2, so their representatives are antipodal pairs of vertices of an icosidodecahedron of radius $\pi$.
 \end{itemize}
 
 \section{Conclusions}
-The geometry of finite groups themselves is intimately related the geometry of objects whose symmetries are that group: element order and conjugacy class determine the placement of elements in our flattened view as a polyhedron of vertices embedded in a sphere of a certain radius. The relative orientation of distinct classes was determined by the geometric duality between the respective polyhedra. Using these tools we described visualizations of finite subgroups of $SO(3)$ without any explicit calculations.
+The geometry of finite groups is intimately related to the geometry of objects whose symmetries realize that group: element order and conjugacy class determine the placement of elements in our flattened view as a polyhedron of vertices embedded in a sphere of a certain radius. The relative orientation of distinct classes is determined by the geometric duality between the respective polyhedra. Using these tools we described visualizations of finite subgroups of $SO(3)$ without any explicit calculations.
+
+\section*{Appendix: Explicit generator matrices}
+
+Every group discussed above can be realized concretely inside $SO(3)$ as a small set of explicit matrices, using nothing but the axis-angle exponential of Section 1 and the vertex coordinates of the relevant solid.
+
+\paragraph{$C_k$ and $D_k$.} With $\hat z$ as in Section 1, $C_k=\langle \exp(\tfrac{2\pi}{k}\hat z)\rangle$, generated by
+\begin{equation*}
+    R_z\left(\tfrac{2\pi}{k}\right)=\begin{bmatrix}\cos(2\pi/k) & -\sin(2\pi/k) & 0\\ \sin(2\pi/k) & \cos(2\pi/k) & 0\\ 0&0&1\end{bmatrix},
+\end{equation*}
+and $D_k=\langle R_z(2\pi/k),\, \exp(\pi\hat x)\rangle = \langle R_z(2\pi/k),\, \mathrm{diag}(1,-1,-1)\rangle$, the extra generator being the $180^\circ$ flip about the $x$-axis that reverses the main axis of the $k$-gonal pyramid/prism.
+
+\paragraph{$A_4$.} Realize the tetrahedron's four vertices as the alternate cube vertices with an even number of minus signs, $(1,1,1),(1,-1,-1),(-1,1,-1),(-1,-1,1)$. Then $A_4=\langle P,D\rangle$ for
+\begin{equation*}
+    P=\begin{bmatrix}0&0&1\\1&0&0\\0&1&0\end{bmatrix}, \qquad D=\begin{bmatrix}1&0&0\\0&-1&0\\0&0&-1\end{bmatrix}.
+\end{equation*}
+Here $P$ (order 3) cyclically permutes coordinates, a $120^\circ$ rotation about the body diagonal $(1,1,1)$ realizing the 3-cycle $(123)$ on the four vertices, while $D$ (order 2) is the $180^\circ$ rotation about the $x$-axis realizing the double transposition $(12)(34)$ -- exactly the presentation $A_4=\langle(123),(12)(34)\rangle$ used in Section 4.
+
+\paragraph{$S_4$.} The rotation group of the same cube is generated by $P$ above together with a $90^\circ$ face rotation,
+\begin{equation*}
+    R_z(\pi/2)=\begin{bmatrix}0&-1&0\\1&0&0\\0&0&1\end{bmatrix},
+\end{equation*}
+so that $S_4=\langle P,R_z(\pi/2)\rangle$ is exactly the group of signed permutation matrices of determinant $+1$.
+
+\paragraph{$A_5$.} Place the icosahedron's twelve vertices at all cyclic permutations of $(0,\pm1,\pm\phi)$, where $\phi=\tfrac{1+\sqrt5}{2}$ is the golden ratio, so that $\phi^2=\phi+1$ \cite{coxeter1973}. The same $P$ above is again an order-3 rotation, now about one of the icosahedron's ten 3-fold axes, and $D=\mathrm{diag}(1,-1,-1)$ is again an order-2 rotation, now about one of its fifteen 2-fold axes; together they only generate the inscribed-tetrahedron subgroup $A_4<A_5$ (the stabilizer of one of the five inscribed tetrahedra of Section 4). A genuine order-5 generator comes from Rodrigues' formula, eq. \ref{eq:rodrigues}, applied to the vertex axis $v=(0,1,\phi)$ and angle $\theta=2\pi/5$; we spell out the computation.
+
+\emph{Length of the axis.} $N\coloneqq|v|^2=1+\phi^2=\phi+2$.
+
+\emph{Exact trigonometric values.} Since $\sqrt5=2\phi-1$, the standard value $\cos72^\circ=\tfrac{\sqrt5-1}{4}$ becomes
+\begin{equation*}
+    \cos\theta=\frac{\phi-1}{2}.
+\end{equation*}
+Squaring and using $\phi^2=\phi+1$ gives $\cos^2\theta=\tfrac{(\phi-1)^2}{4}=\tfrac{2-\phi}{4}$, so
+\begin{equation*}
+    \sin^2\theta = 1-\cos^2\theta = \frac{2+\phi}{4}=\frac{N}{4}, \qquad\text{i.e.}\qquad \sin\theta=\frac{\sqrt N}{2}.
+\end{equation*}
+
+\emph{Rodrigues' formula for the unnormalized axis.} Writing $\hat v\coloneqq 0\cdot\hat x+1\cdot\hat y+\phi\cdot\hat z$ for the (unnormalized) hat-map matrix of $v$ and $\hat n\coloneqq\hat v/\sqrt N$ for the unit one, eq. \ref{eq:rodrigues} reads
+\begin{equation*}
+    R_5=\exp(\theta\hat n) = I + \frac{\sin\theta}{\sqrt N}\,\hat v + \frac{1-\cos\theta}{N}\,\hat v^2.
+\end{equation*}
+The two coefficients simplify remarkably: $\frac{\sin\theta}{\sqrt N}=\frac{\sqrt N/2}{\sqrt N}=\frac12$ exactly, while $\frac{1-\cos\theta}{N}=\frac{(3-\phi)/2}{\phi+2}=\frac{2-\phi}{2}$, again by $\phi^2=\phi+1$ (cross-multiplying, this last equality reduces to $(2-\phi)(\phi+2)=4-\phi^2=3-\phi$).
+
+\emph{The two matrices.} Directly from the definition of the hat map,
+\begin{equation*}
+    \hat v = \begin{bmatrix}0&-\phi&1\\\phi&0&0\\-1&0&0\end{bmatrix}, \qquad
+    \hat v^2 = vv^T-NI=\begin{bmatrix}-\phi-2&0&0\\0&-\phi-1&\phi\\0&\phi&-1\end{bmatrix}.
+\end{equation*}
+
+\emph{Assembling $R_5$.} Substituting the coefficients above and simplifying each entry with $\phi^2=\phi+1$,
+\begin{equation*}
+    R_5 = I + \frac12\hat v + \frac{2-\phi}{2}\hat v^2 = \frac12\begin{bmatrix}\phi-1 & -\phi & 1\\ \phi & 1 & \phi-1\\ -1 & \phi-1 & \phi\end{bmatrix}.
+\end{equation*}
+One checks directly that $R_5\cdot(0,1,\phi)^T=(0,1,\phi)^T$ and that $\mathrm{tr}(R_5)=\phi=1+2\cos\theta$, confirming $R_5$ is exactly this rotation. Since $\langle P,D\rangle\cong A_4$ has order 12 and $R_5$ has order 5 with $5\nmid 12$, $R_5\notin\langle P,D\rangle$; as any subgroup $H$ with $\langle P,D\rangle\subsetneq H\leq A_5$ must have order a multiple of 12 dividing $60=|A_5|$, hence $|H|=60$, it follows that $\langle P,D,R_5\rangle=A_5$.
+
+\paragraph{$A_5$ as permutations of five tetrahedra.} Write $G\coloneqq\langle P,D,R_5\rangle=A_5$ and $T_1\coloneqq\curl{(1,1,1),(1,-1,-1),(-1,1,-1),(-1,-1,1)}$, whose stabilizer in $G$ is $\langle P,D\rangle$. By orbit-stabilizer the orbit $G\cdot T_1$ has $60/12=5$ elements; we computed it exactly (in $\Z[\phi]/(\phi^2-\phi-1)$, using a computer algebra system) and found the four further tetrahedra
+\begin{align*}
+    T_2 &= \curl{(0,\phi,\phi-1),\,(\phi-1,0,-\phi),\,(-\phi,1-\phi,0),\,(1,-1,1)}\\
+    T_3 &= \curl{(\phi-1,0,\phi),\,(-\phi,\phi-1,0),\,(0,-\phi,1-\phi),\,(1,1,-1)}\\
+    T_4 &= \curl{(-1,1,1),\,(1-\phi,0,-\phi),\,(0,-\phi,\phi-1),\,(\phi,\phi-1,0)}\\
+    T_5 &= \curl{(-1,-1,-1),\,(1-\phi,0,\phi),\,(0,\phi,1-\phi),\,(\phi,1-\phi,0)},
+\end{align*}
+the classical compound of five tetrahedra inscribed in the dodecahedron dual to our icosahedron. Every $g\in G$ permutes $\curl{T_1,\dots,T_5}$, giving a homomorphism $\rho:G\to S_5$; we computed $\rho(g)$ for all 60 elements of $G$ and found it injective, with image consisting of exactly:
+\begin{itemize}
+    \item the identity;
+    \item all $15$ permutations of cycle type $(2,2)$ -- these are the $2,2$-cycles, of trace $-1$, e.g.\ $\rho$ sends the half-turn about the $x$-axis, $D$, to $(23)(45)$;
+    \item all $20$ permutations of cycle type $(3)$ -- the $3$-cycles, of trace $0$, e.g.\ $\rho(P)=(234)$;
+    \item all $24$ permutations of cycle type $(5)$ -- the $5$-cycles, split $12$ of trace $\phi$ (radius $2\pi/5$, $k=1$) and $12$ of trace $1-\phi$ (radius $4\pi/5$, $k=2$), e.g.\ $\rho(R_5)=(12453)$.
+\end{itemize}
+Since $S_5$ has exactly $15$, $20$, and $24$ permutations of cycle type $(2,2)$, $(3)$, and $(5)$ respectively, these three classes already exhaust every even permutation of $\curl{1,\dots,5}$; as $1+15+20+24=60=|A_5|$, the homomorphism $\rho$ is therefore an isomorphism $A_5\xrightarrow{\ \sim\ }A_5\leq S_5$. This is the explicit form of the description of $A_5$ from Section~1 as the even permutations of five tetrahedral substructures. Table~\ref{tab:a5-elements} gives the full, explicit correspondence: every one of the 60 matrices $g\in A_5$ alongside the permutation $\rho(g)$ it induces on $\curl{T_1,\dots,T_5}$, grouped by conjugacy class.
+
+\begin{longtable}{c @{\hspace{3em}} c}
+\caption{All 60 elements of $A_5=\langle P,D,R_5\rangle$: the permutation $\rho(g)\in S_5$ of $\{T_1,\dots,T_5\}$ and the matrix $g$ itself, grouped by conjugacy class.}\label{tab:a5-elements}\\
+\hline
+\multicolumn{2}{c}{\textit{identity (1 element)}} \\
+\hline
+$()$ & $\begin{bmatrix}1 & 0 & 0\\[4pt] 0 & 1 & 0\\[4pt] 0 & 0 & 1\end{bmatrix}$ \\[10pt]
+\hline
+\multicolumn{2}{c}{\textit{order 2, cycle type $(2,2)$ -- 15 elements}} \\
+\hline
+$(1,2)(3,4)$ & $\dfrac{1}{2}\begin{bmatrix}\phi-1 & \phi & -1\\[4pt] \phi & -1 & -\phi+1\\[4pt] -1 & -\phi+1 & -\phi\end{bmatrix}$ \\[10pt]
+$(1,2)(3,5)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi & 1 & \phi-1\\[4pt] 1 & \phi-1 & \phi\\[4pt] \phi-1 & \phi & -1\end{bmatrix}$ \\[10pt]
+$(1,2)(4,5)$ & $\dfrac{1}{2}\begin{bmatrix}-1 & -\phi+1 & -\phi\\[4pt] -\phi+1 & -\phi & 1\\[4pt] -\phi & 1 & \phi-1\end{bmatrix}$ \\[10pt]
+$(1,3)(2,4)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi & -1 & -\phi+1\\[4pt] -1 & \phi-1 & \phi\\[4pt] -\phi+1 & \phi & -1\end{bmatrix}$ \\[10pt]
+$(1,3)(2,5)$ & $\dfrac{1}{2}\begin{bmatrix}\phi-1 & -\phi & 1\\[4pt] -\phi & -1 & -\phi+1\\[4pt] 1 & -\phi+1 & -\phi\end{bmatrix}$ \\[10pt]
+$(1,3)(4,5)$ & $\dfrac{1}{2}\begin{bmatrix}-1 & \phi-1 & \phi\\[4pt] \phi-1 & -\phi & 1\\[4pt] \phi & 1 & \phi-1\end{bmatrix}$ \\[10pt]
+$(1,4)(2,3)$ & $\dfrac{1}{2}\begin{bmatrix}-1 & -\phi+1 & \phi\\[4pt] -\phi+1 & -\phi & -1\\[4pt] \phi & -1 & \phi-1\end{bmatrix}$ \\[10pt]
+$(1,4)(2,5)$ & $\dfrac{1}{2}\begin{bmatrix}\phi-1 & \phi & 1\\[4pt] \phi & -1 & \phi-1\\[4pt] 1 & \phi-1 & -\phi\end{bmatrix}$ \\[10pt]
+$(1,4)(3,5)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi & 1 & -\phi+1\\[4pt] 1 & \phi-1 & -\phi\\[4pt] -\phi+1 & -\phi & -1\end{bmatrix}$ \\[10pt]
+$(1,5)(2,3)$ & $\dfrac{1}{2}\begin{bmatrix}-1 & \phi-1 & -\phi\\[4pt] \phi-1 & -\phi & -1\\[4pt] -\phi & -1 & \phi-1\end{bmatrix}$ \\[10pt]
+$(1,5)(2,4)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi & -1 & \phi-1\\[4pt] -1 & \phi-1 & -\phi\\[4pt] \phi-1 & -\phi & -1\end{bmatrix}$ \\[10pt]
+$(1,5)(3,4)$ & $\dfrac{1}{2}\begin{bmatrix}\phi-1 & -\phi & -1\\[4pt] -\phi & -1 & \phi-1\\[4pt] -1 & \phi-1 & -\phi\end{bmatrix}$ \\[10pt]
+$(2,3)(4,5)$ & $\begin{bmatrix}1 & 0 & 0\\[4pt] 0 & -1 & 0\\[4pt] 0 & 0 & -1\end{bmatrix}$ \\[10pt]
+$(2,4)(3,5)$ & $\begin{bmatrix}-1 & 0 & 0\\[4pt] 0 & -1 & 0\\[4pt] 0 & 0 & 1\end{bmatrix}$ \\[10pt]
+$(2,5)(3,4)$ & $\begin{bmatrix}-1 & 0 & 0\\[4pt] 0 & 1 & 0\\[4pt] 0 & 0 & -1\end{bmatrix}$ \\[10pt]
+\hline
+\multicolumn{2}{c}{\textit{order 3, cycle type $(3)$ -- 20 elements}} \\
+\hline
+$(1,2,3)$ & $\dfrac{1}{2}\begin{bmatrix}-1 & \phi-1 & \phi\\[4pt] -\phi+1 & \phi & -1\\[4pt] -\phi & -1 & -\phi+1\end{bmatrix}$ \\[10pt]
+$(1,2,4)$ & $\dfrac{1}{2}\begin{bmatrix}\phi & -1 & \phi-1\\[4pt] -1 & -\phi+1 & \phi\\[4pt] -\phi+1 & -\phi & -1\end{bmatrix}$ \\[10pt]
+$(1,2,5)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi+1 & \phi & 1\\[4pt] -\phi & -1 & \phi-1\\[4pt] 1 & -\phi+1 & \phi\end{bmatrix}$ \\[10pt]
+$(1,3,2)$ & $\dfrac{1}{2}\begin{bmatrix}-1 & -\phi+1 & -\phi\\[4pt] \phi-1 & \phi & -1\\[4pt] \phi & -1 & -\phi+1\end{bmatrix}$ \\[10pt]
+$(1,3,4)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi+1 & -\phi & -1\\[4pt] \phi & -1 & \phi-1\\[4pt] -1 & -\phi+1 & \phi\end{bmatrix}$ \\[10pt]
+$(1,3,5)$ & $\dfrac{1}{2}\begin{bmatrix}\phi & 1 & -\phi+1\\[4pt] 1 & -\phi+1 & \phi\\[4pt] \phi-1 & -\phi & -1\end{bmatrix}$ \\[10pt]
+$(1,4,2)$ & $\dfrac{1}{2}\begin{bmatrix}\phi & -1 & -\phi+1\\[4pt] -1 & -\phi+1 & -\phi\\[4pt] \phi-1 & \phi & -1\end{bmatrix}$ \\[10pt]
+$(1,4,3)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi+1 & \phi & -1\\[4pt] -\phi & -1 & -\phi+1\\[4pt] -1 & \phi-1 & \phi\end{bmatrix}$ \\[10pt]
+$(1,4,5)$ & $\dfrac{1}{2}\begin{bmatrix}-1 & \phi-1 & -\phi\\[4pt] -\phi+1 & \phi & 1\\[4pt] \phi & 1 & -\phi+1\end{bmatrix}$ \\[10pt]
+$(1,5,2)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi+1 & -\phi & 1\\[4pt] \phi & -1 & -\phi+1\\[4pt] 1 & \phi-1 & \phi\end{bmatrix}$ \\[10pt]
+$(1,5,3)$ & $\dfrac{1}{2}\begin{bmatrix}\phi & 1 & \phi-1\\[4pt] 1 & -\phi+1 & -\phi\\[4pt] -\phi+1 & \phi & -1\end{bmatrix}$ \\[10pt]
+$(1,5,4)$ & $\dfrac{1}{2}\begin{bmatrix}-1 & -\phi+1 & \phi\\[4pt] \phi-1 & \phi & 1\\[4pt] -\phi & 1 & -\phi+1\end{bmatrix}$ \\[10pt]
+$(2,3,4)$ & $\begin{bmatrix}0 & 0 & 1\\[4pt] 1 & 0 & 0\\[4pt] 0 & 1 & 0\end{bmatrix}$ \\[10pt]
+$(2,3,5)$ & $\begin{bmatrix}0 & -1 & 0\\[4pt] 0 & 0 & 1\\[4pt] -1 & 0 & 0\end{bmatrix}$ \\[10pt]
+$(2,4,3)$ & $\begin{bmatrix}0 & 1 & 0\\[4pt] 0 & 0 & 1\\[4pt] 1 & 0 & 0\end{bmatrix}$ \\[10pt]
+$(2,4,5)$ & $\begin{bmatrix}0 & 0 & -1\\[4pt] 1 & 0 & 0\\[4pt] 0 & -1 & 0\end{bmatrix}$ \\[10pt]
+$(2,5,3)$ & $\begin{bmatrix}0 & 0 & -1\\[4pt] -1 & 0 & 0\\[4pt] 0 & 1 & 0\end{bmatrix}$ \\[10pt]
+$(2,5,4)$ & $\begin{bmatrix}0 & 1 & 0\\[4pt] 0 & 0 & -1\\[4pt] -1 & 0 & 0\end{bmatrix}$ \\[10pt]
+$(3,4,5)$ & $\begin{bmatrix}0 & -1 & 0\\[4pt] 0 & 0 & -1\\[4pt] 1 & 0 & 0\end{bmatrix}$ \\[10pt]
+$(3,5,4)$ & $\begin{bmatrix}0 & 0 & 1\\[4pt] -1 & 0 & 0\\[4pt] 0 & -1 & 0\end{bmatrix}$ \\[10pt]
+\hline
+\multicolumn{2}{c}{\textit{order 5, $k=1$, radius $2\pi/5$ -- 12 elements}} \\
+\hline
+$(1,2,3,4,5)$ & $\dfrac{1}{2}\begin{bmatrix}\phi & 1 & -\phi+1\\[4pt] -1 & \phi-1 & -\phi\\[4pt] -\phi+1 & \phi & 1\end{bmatrix}$ \\[10pt]
+$(1,2,4,5,3)$ & $\dfrac{1}{2}\begin{bmatrix}\phi-1 & -\phi & 1\\[4pt] \phi & 1 & \phi-1\\[4pt] -1 & \phi-1 & \phi\end{bmatrix}$ \\[10pt]
+$(1,2,5,3,4)$ & $\dfrac{1}{2}\begin{bmatrix}1 & \phi-1 & -\phi\\[4pt] \phi-1 & \phi & 1\\[4pt] \phi & -1 & \phi-1\end{bmatrix}$ \\[10pt]
+$(1,3,2,5,4)$ & $\dfrac{1}{2}\begin{bmatrix}\phi & -1 & \phi-1\\[4pt] 1 & \phi-1 & -\phi\\[4pt] \phi-1 & \phi & 1\end{bmatrix}$ \\[10pt]
+$(1,3,4,2,5)$ & $\dfrac{1}{2}\begin{bmatrix}1 & -\phi+1 & \phi\\[4pt] -\phi+1 & \phi & 1\\[4pt] -\phi & -1 & \phi-1\end{bmatrix}$ \\[10pt]
+$(1,3,5,4,2)$ & $\dfrac{1}{2}\begin{bmatrix}\phi-1 & \phi & -1\\[4pt] -\phi & 1 & \phi-1\\[4pt] 1 & \phi-1 & \phi\end{bmatrix}$ \\[10pt]
+$(1,4,2,3,5)$ & $\dfrac{1}{2}\begin{bmatrix}\phi-1 & -\phi & -1\\[4pt] \phi & 1 & -\phi+1\\[4pt] 1 & -\phi+1 & \phi\end{bmatrix}$ \\[10pt]
+$(1,4,3,5,2)$ & $\dfrac{1}{2}\begin{bmatrix}1 & \phi-1 & \phi\\[4pt] \phi-1 & \phi & -1\\[4pt] -\phi & 1 & \phi-1\end{bmatrix}$ \\[10pt]
+$(1,4,5,2,3)$ & $\dfrac{1}{2}\begin{bmatrix}\phi & 1 & \phi-1\\[4pt] -1 & \phi-1 & \phi\\[4pt] \phi-1 & -\phi & 1\end{bmatrix}$ \\[10pt]
+$(1,5,2,4,3)$ & $\dfrac{1}{2}\begin{bmatrix}1 & -\phi+1 & -\phi\\[4pt] -\phi+1 & \phi & -1\\[4pt] \phi & 1 & \phi-1\end{bmatrix}$ \\[10pt]
+$(1,5,3,2,4)$ & $\dfrac{1}{2}\begin{bmatrix}\phi-1 & \phi & 1\\[4pt] -\phi & 1 & -\phi+1\\[4pt] -1 & -\phi+1 & \phi\end{bmatrix}$ \\[10pt]
+$(1,5,4,3,2)$ & $\dfrac{1}{2}\begin{bmatrix}\phi & -1 & -\phi+1\\[4pt] 1 & \phi-1 & \phi\\[4pt] -\phi+1 & -\phi & 1\end{bmatrix}$ \\[10pt]
+\hline
+\multicolumn{2}{c}{\textit{order 5, $k=2$, radius $4\pi/5$ -- 12 elements}} \\
+\hline
+$(1,2,3,5,4)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi+1 & -\phi & -1\\[4pt] -\phi & 1 & -\phi+1\\[4pt] 1 & \phi-1 & -\phi\end{bmatrix}$ \\[10pt]
+$(1,2,4,3,5)$ & $\dfrac{1}{2}\begin{bmatrix}1 & -\phi+1 & \phi\\[4pt] \phi-1 & -\phi & -1\\[4pt] \phi & 1 & -\phi+1\end{bmatrix}$ \\[10pt]
+$(1,2,5,4,3)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi & -1 & -\phi+1\\[4pt] 1 & -\phi+1 & -\phi\\[4pt] \phi-1 & -\phi & 1\end{bmatrix}$ \\[10pt]
+$(1,3,2,4,5)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi+1 & \phi & 1\\[4pt] \phi & 1 & -\phi+1\\[4pt] -1 & \phi-1 & -\phi\end{bmatrix}$ \\[10pt]
+$(1,3,4,5,2)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi & 1 & \phi-1\\[4pt] -1 & -\phi+1 & -\phi\\[4pt] -\phi+1 & -\phi & 1\end{bmatrix}$ \\[10pt]
+$(1,3,5,2,4)$ & $\dfrac{1}{2}\begin{bmatrix}1 & \phi-1 & -\phi\\[4pt] -\phi+1 & -\phi & -1\\[4pt] -\phi & 1 & -\phi+1\end{bmatrix}$ \\[10pt]
+$(1,4,2,5,3)$ & $\dfrac{1}{2}\begin{bmatrix}1 & -\phi+1 & -\phi\\[4pt] \phi-1 & -\phi & 1\\[4pt] -\phi & -1 & -\phi+1\end{bmatrix}$ \\[10pt]
+$(1,4,3,2,5)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi & -1 & \phi-1\\[4pt] 1 & -\phi+1 & \phi\\[4pt] -\phi+1 & \phi & 1\end{bmatrix}$ \\[10pt]
+$(1,4,5,3,2)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi+1 & -\phi & 1\\[4pt] -\phi & 1 & \phi-1\\[4pt] -1 & -\phi+1 & -\phi\end{bmatrix}$ \\[10pt]
+$(1,5,2,3,4)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi & 1 & -\phi+1\\[4pt] -1 & -\phi+1 & \phi\\[4pt] \phi-1 & \phi & 1\end{bmatrix}$ \\[10pt]
+$(1,5,3,4,2)$ & $\dfrac{1}{2}\begin{bmatrix}1 & \phi-1 & \phi\\[4pt] -\phi+1 & -\phi & 1\\[4pt] \phi & -1 & -\phi+1\end{bmatrix}$ \\[10pt]
+$(1,5,4,2,3)$ & $\dfrac{1}{2}\begin{bmatrix}-\phi+1 & \phi & -1\\[4pt] \phi & 1 & \phi-1\\[4pt] 1 & -\phi+1 & -\phi\end{bmatrix}$ \\[10pt]
+\hline
+\end{longtable}
+
+\section*{Acknowledgments}
+Portions of this paper's exposition and editing, and the computer-algebra verification underlying the explicit matrices in the appendix, were produced with the assistance of large language models: Claude Sonnet 4.6, for translation-focused editing of the Vietnamese version, and Claude Sonnet 5 (via GitHub Copilot), for drafting and editing assistance and for exact symbolic computation and verification of the group-theoretic and matrix claims throughout. All mathematical content was reviewed and verified by the author.
+
 %    Bibliographies can be prepared with BibTeX using amsplain,
 %    amsalpha, or (for "historical" overviews) natbib style.
 \bibliographystyle{amsplain}

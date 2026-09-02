@@ -12,7 +12,7 @@
 
 \graphicspath{{figures/}}
 
-\theoremstyle{theorem}
+\theoremstyle{plain}
 \newtheorem{theorem}{Định lý}
  
 \theoremstyle{definition}
@@ -39,7 +39,7 @@ Bài báo này trình bày cách các nhóm con hữu hạn xuất hiện trong 
     \begin{equation}
         \mathrm{FinRot}\coloneqq\curl{G\in \mathrm{Grp}\st G\leq SO(3,\R)\land |G|\in \N}
     \end{equation}
-    là đã được biết đến rộng rãi, chúng ta tìm thấy tài liệu tham khảo sớm nhất là Klein vào năm 1888\cite{klein}. Có hai lớp vô hạn: 
+    là đã được biết đến rộng rãi, ít nhất là từ công trình của Klein về khối hai mươi mặt \cite{klein}; xem Coxeter \cite[tr.~53]{coxeter1973} để có một cách trình bày hiện đại, đầy đủ. Có hai lớp vô hạn: 
     \begin{itemize}
         \item $C_k$ - các nhóm cyclic bậc $k$ là các phép quay của hình chóp $k$-giác
         \item $D_{k}$ - các nhóm dihedral bậc $2k$ là các phép quay của hình lăng trụ $k$-giác
@@ -182,7 +182,11 @@ Bài báo này trình bày cách các nhóm con hữu hạn xuất hiện trong 
         p:\so(3)/\sim &\inj \so(3) \\
         [\hat{x}]&\overset{! }{\mapsto} \hat{x}'\in [\hat{x}]\cap\overline{B}
     \end{align}
-    sao cho $p$ chọn một đại diện duy nhất cho mỗi lớp tương đương trong $\so(3)/\sim$. Lưu ý ảnh bằng $\overline{B}$, được hiển thị trong Hình \ref{fig:log-so3}.  \emph{Mọi hình trong bài báo này là một hình chiếu của $\overline{B}$ lên một mặt phẳng. } Mỗi lớp tương đương $[\hat{r}]\in\so(3)/\sim$ trong sơ đồ giao hoán: 
+    sao cho $p$ chọn một đại diện duy nhất cho mỗi lớp tương đương trong $\so(3)/\sim$. Lưu ý ảnh bằng $\overline{B}$, được hiển thị trong Hình \ref{fig:log-so3}.  \emph{Mọi hình trong bài báo này là một hình chiếu của $\overline{B}$ lên một mặt phẳng. }
+    \begin{remark}
+        $\overline{B}$ chính là hình ảnh quen thuộc của $SO(3)$ như một khối cầu đặc bán kính $\pi$ với các điểm biên đối cực được đồng nhất, hiện thực hóa $SO(3)$ như không gian xạ ảnh thực $\R P^3$; xem Stillwell \cite{stillwell2008}.
+    \end{remark}
+    Mỗi lớp tương đương $[\hat{r}]\in\so(3)/\sim$ trong sơ đồ giao hoán: 
     \begin{equation}\label{pimcd}
         \begin{tikzcd}
         \exp^*(\curl{\bfr})\arrow[r, hook] \arrow[d] & \so(3)\arrow[d, "\exp"] \\
@@ -229,7 +233,7 @@ Bài báo này trình bày cách các nhóm con hữu hạn xuất hiện trong 
            \so(3) \arrow[ur, two heads, "\exp"]\arrow[rr, "\id"]&& \so(3)
         \end{tikzcd}
     \end{equation}
-    Chúng ta tập trung vào $\overline{B}$ vì nó là một $SO(3)$-torsor dưới tác động (kiểm tra điều này!)
+    Chúng ta tập trung vào $\overline{B}$ vì nó là một $SO(3)$-torsor dưới tác động sau: tác động nhân trái của $SO(3)$ lên chính nó là tự do và bắc cầu, và tác động dưới đây chính là tác động đó được chuyển qua song ánh $\log$ (với nghịch đảo $\exp|_{\overline{B}}$), nên nó thừa hưởng tính tự do và bắc cầu.
     \begin{align}
         SO(3)\times \so(3)&\to \so(3)\\
         (\G,\hat{x})&\mapsto \log(\G\exp{\hat{x}})\nonumber
@@ -321,7 +325,7 @@ Theo cách này khối đa diện có một số tính chất đại số đẹp
     G\cdot P^d\coloneqq\curl{g\cdot x\in P\st (g,x)\in G\times P^d}=P^d\label{cinv}\\
     \sum_{d=0}^2(-1)^d|P^d|=2\label{eucha}
 \end{gather}
- Tính chất \ref{pbd} là theo định nghĩa để xây dựng một phức ô hữu hạn.  Tính chất \ref{cinv} phát biểu rằng nhóm phải ổn định độc lập mỗi loại ô. Cuối cùng tính chất \ref{eucha} là đặc số Euler của các khối đa diện đồng phôi với mặt cầu.
+ Tính chất \ref{pbd} là theo định nghĩa để xây dựng một phức ô hữu hạn.  Tính chất \ref{cinv} phát biểu rằng nhóm phải ổn định độc lập mỗi loại ô. Cuối cùng tính chất \ref{eucha} là đặc số Euler của các khối đa diện đồng phôi với mặt cầu \cite{MR1867354}.
 %  Điều này ngay lập tức cho một tập hợp các đồng cấu liên kết cho mọi $i\in\curl{0,1,2}$: 
 %  \begin{gather}
 %      \phi_{i}: G\to S_{|P^i|}
@@ -347,7 +351,7 @@ Theo cách này khối đa diện có một số tính chất đại số đẹp
  Hầu hết các đối xứng khối đa diện đều đặn là bắc cầu trên các đỉnh nên tất cả các 0-ô đều tương tự. Tuy nhiên hầu hết các kim cương dihedral có một cặp điểm đối diện không tương tự với phần lớn các điểm chu vi khác.
  
  Nói chung không phải tất cả các 2-ô $P^2$ của $P$ đều tương tự, tức là chúng không có cùng hình dạng tô pô theo nghĩa bao nhiêu 0-ô và 1-ô tạo thành biên của nó. Nếu một cặp 2-ô $A,B$ không tương tự thì chúng có thể có các vỏ không tương tự.
- Tuy nhiên $P$ là đều đặn nếu và chỉ nếu mọi 2-ô đều tương tự (kiểm tra điều này).
+ Tuy nhiên $P$ là đều đặn theo nghĩa cổ điển (đối xứng bắc cầu trên cờ, ví dụ một khối Platon) chỉ khi mọi 2-ô đều tương tự \emph{và} mọi 0-ô, 1-ô cũng tương tự; tính tương tự của riêng các 2-ô là cần nhưng chưa đủ, vì tính bắc cầu trên mặt không suy ra tính bắc cầu trên đỉnh hay cạnh (ví dụ một lưỡng chóp $n$-giác có thể có $D_n$ tác động bắc cầu trên $2n$ mặt tam giác mà không bắc cầu trên hai loại đỉnh của nó) \cite{coxeter1973}.
  \begin{definition}[Khối đa diện dẫn xuất]
     Một \emph{khối đa diện dẫn xuất} được tạo ra bằng cách đặt một đỉnh tại trọng tâm của mỗi phức con đơn tương tự của $P$, sau đó tạo ra một khối đa diện mới một cách đệ quy từ các đỉnh này như trước
  \end{definition}
@@ -389,7 +393,7 @@ Chúng ta phân tích phân hoạch thành $\bigsqcup_{s\in S}\Orb^d_s$ bằng c
 \begin{align}
     \partial C^2_s=\bigsqcup_{e^0_j\in \partial C^d_s}e^0_j\sqcup\bigsqcup_{e^1_{ij}\subseteq\partial C^d_s}e^1_{ij}
 \end{align}
-\emph{Định lý quỹ đạo-bộ ổn định} cho chúng ta biết rằng: 
+\emph{Định lý quỹ đạo-bộ ổn định} \cite{dummitfoote} cho chúng ta biết rằng: 
 \begin{equation}
     |\Orb^d_i|=\left[G: G^d_i\right]
 \end{equation}
